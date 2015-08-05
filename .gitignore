@@ -1,0 +1,12 @@
+*.swp
+data
+log
+logs
+.config
+*.gz
+docker
+backup/
+*.deb
+/test
+/svnrepos
+/conf/.init_complete
