@@ -50,6 +50,17 @@ system("touch", "$pw") unless ( -f "$pw");
 system("chmod","640",    "$pw");
 system("chgrp","docker", "$pw");
 
+system("rm", "-f", "/run/crond.pid") if ( -f "/run/crond.pid" );
+system("/usr/sbin/cron");
+
+my $min  = int(rand(60));
+my $hour = int(rand(5));
+
+system("chmod","750", "/svnroot/backup") if( -d "/svnroot/backup");
+open (CRON,"|/usr/bin/crontab") or die "crontab error?";
+print CRON ("$min $hour * * * (/svnroot/bak.sh >/svnroot/backup/stdout.log 2>/svnroot/backup/stderr.log)\n");
+close(CRON);
+
 # 切换当前运行用户,先切GID.
 #$GID = $EGID = $gid;
 #$UID = $EUID = $uid;

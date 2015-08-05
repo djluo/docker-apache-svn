@@ -45,6 +45,7 @@ _run() {
     --add-host=svn.example.com:127.0.0.1 \
     -v ${current_dir}/logs/:/svnroot/logs/   \
     -v ${current_dir}/conf/:/svnroot/conf/   \
+    -v ${current_dir}/backup/:/svnroot/backup/ \
     -v ${current_dir}/svnrepos/:/svnroot/svnrepos/ \
     --name ${name} ${images} \
     $cmd
