@@ -75,10 +75,11 @@ incremental() {
     elif [ $last_rev -eq $current_rev ];then
       continue
     else
-      /usr/bin/svnadmin dump $svn_path -r ${last_rev}:${current_rev} --incremental \
-        > ${bak_dir}/r${last_rev}-r${current_rev}
+      local start_rev=$(( $last_rev + 1 ))
+      /usr/bin/svnadmin dump $svn_path -r ${start_rev}:${current_rev} --incremental \
+        > ${bak_dir}/r${start_rev}-r${current_rev}
       if [ $? -eq 0 ];then
-        gzip -f ${bak_dir}/r${last_rev}-r${current_rev}
+        gzip -f ${bak_dir}/r${start_rev}-r${current_rev}
         echo $current_rev > ${latest}
       fi
     fi
