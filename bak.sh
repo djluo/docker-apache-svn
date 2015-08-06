@@ -38,13 +38,15 @@ full_backup() {
     else
       [ -f $target ] && rm -fv $target
       pushd /svnroot/backup
-      tar cfz $target ./temp/ && \
+      mv ./temp/ restore-$svn_name
+      tar cfz $target ./restore-$svn_name/ && \
         echo "$current_rev" > ${revision_file}
       md5sum $target > ${md5sum_file}
+      rm -rf ./restore-${svn_name}
       popd
     fi
 
-    rm -rf ../backup/temp
+    [ -d ../backup/temp ] && rm -rf ../backup/temp
   done
   unset dir
   popd
