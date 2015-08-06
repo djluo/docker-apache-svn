@@ -85,6 +85,25 @@ incremental() {
   popd
 }
 
+# TODO
+# tar xf full-rN.tar.gz -C ./temp
+# zcat r(N+1)-rY.gz | svnadd load ./temp
+#restore() {
+#  local repo="$1"
+#  pushd /svnroot/backup/
+#  [ -d ./temp ] && rm -rf ./temp
+#  mkdir ./temp
+#
+#  local latest_full=$(ls -tr ./$repo/full*gz|tail -1)
+#  local latest_rev=$(basename $latest_full)
+#  latest_rev=${latest_rev%.tar.gz}
+#  latest_rev=${latest_rev#full-r}
+#
+#  [ "x$latest_full" != "x" ] \
+#    && [ -f $latest_full ]   \
+#    && tar xf $latest_full -C ./temp/
+#}
+
 case "$1" in
   full)
     full_backup
