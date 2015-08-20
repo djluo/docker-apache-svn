@@ -62,6 +62,14 @@ open (CRON,"|/usr/bin/crontab") or die "crontab error?";
 print CRON ("$min $hour * * * (find /svnroot/backup -type f -mtime 16 -exec rm -f {} \\;)\n");
 print CRON ("$min $hour * * 7 (/svnroot/bak.sh full >/dev/null 2>&1)\n");
 print CRON ("$min $hour * * 1,2,3,4,5,6 (/svnroot/bak.sh incremental >/dev/null 2>&1)\n");
+if( $ENV{'RSYNC_PASSWORD'} ){
+  my $ip=$ENV{'backup_ip'};
+  my $dest=$ENV{'backup_dest'}."_".$ENV{'HOSTNAME'};
+
+  my $rsync_hour = $hour + 1;
+
+  print CRON ("$min $rsync_hour * * * (/usr/bin/rsync --del --port=2873 -al /svnroot/backup/ docker@". $ip ."::backup/$dest/)\n");
+}
 close(CRON);
 
 # 切换当前运行用户,先切GID.
