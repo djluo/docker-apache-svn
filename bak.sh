@@ -76,10 +76,12 @@ incremental() {
       continue
     else
       local start_rev=$(( $last_rev + 1 ))
+      local target="${bak_dir}/r${start_rev}-r${current_rev}"
       /usr/bin/svnadmin dump $svn_path -r ${start_rev}:${current_rev} --incremental \
-        > ${bak_dir}/r${start_rev}-r${current_rev}
+        > ${target}
       if [ $? -eq 0 ];then
-        gzip -f ${bak_dir}/r${start_rev}-r${current_rev}
+        gzip -f ${target}
+        md5sum  ${target}.gz > ${target}.md5
         echo $current_rev > ${latest}
       fi
     fi
@@ -88,7 +90,7 @@ incremental() {
   popd
 }
 
-# TODO
+# TODO: restore
 # tar xf full-rN.tar.gz -C ./temp
 # zcat r(N+1)-rY.gz | svnadd load ./temp
 #restore() {
