@@ -5,6 +5,10 @@ MAINTAINER djluo <dj.luo@baoyugame.com>
 
 RUN export http_proxy="http://172.17.42.1:8080/" \
     && export DEBIAN_FRONTEND=noninteractive     \
+    && curl -sLo   /wandisco-debian.gpg http://opensource.wandisco.com/wandisco-debian.gpg \
+    && apt-key add /wandisco-debian.gpg && rm -rf /wandisco-debian.gpg \
+    && echo "deb http://staging.opensource.wandisco.com/debian wheezy svn18" \
+       > /etc/apt/sources.list.d/subversion.list \
     && apt-get update \
     && apt-get install -y apache2 apache2-mpm-worker apache2-utils libapache2-svn subversion \
     && apt-get clean \
