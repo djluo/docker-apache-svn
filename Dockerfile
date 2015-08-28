@@ -10,7 +10,8 @@ RUN export http_proxy="http://172.17.42.1:8080/" \
     && echo "deb http://staging.opensource.wandisco.com/debian wheezy svn18" \
        > /etc/apt/sources.list.d/subversion.list \
     && apt-get update \
-    && apt-get install -y apache2 apache2-mpm-worker apache2-utils libapache2-svn subversion \
+    && apt-get install -y apache2 apache2-mpm-worker apache2-utils \
+                          libapache2-svn subversion cronolog \
     && apt-get clean \
     && unset http_proxy DEBIAN_FRONTEND \
     && rm -rf usr/share/locale \

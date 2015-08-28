@@ -15,8 +15,7 @@
 # container_name is "dir1-dir2"
 _container_name ${current_dir}
 
-images="apache-svn"
-#images="${registry}/baoyu/apache-svn"
+images="${registry}/baoyu/apache-svn"
 #default_port="172.17.42.1:9292:9292"
 
 action="$1"    # start or stop ...
@@ -38,6 +37,9 @@ _run() {
 
   [ "x$1" == "xdebug" ] && _run_debug
 
+    #-e "RSYNC_PASSWORD=docker" \
+    #-e "backup_dest=$name"     \
+    #-e "backup_ip=172.17.42.1" \
   sudo docker run $mode $port \
     -e "TZ=Asia/Shanghai"     \
     -e "User_Id=${User_Id}"   \
