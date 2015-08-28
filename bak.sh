@@ -109,12 +109,24 @@ incremental() {
 #    && tar xf $latest_full -C ./temp/
 #}
 
+conf_backup() {
+  pushd /svnroot/
+  bak_time=$(date +"%Y%m%d-%s")
+  local bak_dir="./backup/conf/"
+  [ -d $bak_dir ] || mkdir -p $bak_dir
+  tar cfz ${bak_dir}/${bak_time}.tar.gz ./conf/
+  md5sum  ${bak_dir}/${bak_time}.tar.gz > ${bak_dir}/${bak_time}.md5
+  popd
+}
+
 case "$1" in
   full)
     full_backup
+    conf_backup
     ;;
   incremental)
     incremental
+    conf_backup
     ;;
   *)
     usage
