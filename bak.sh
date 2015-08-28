@@ -6,6 +6,7 @@ export TZ=Asia/Shanghai
 usage() {
   echo "Usage: $0 full"
   echo "Usage: $0 incremental"
+  echo "Usage: $0 verify"
   echo
   exit 127
 }
@@ -119,6 +120,22 @@ conf_backup() {
   popd
 }
 
+verify_all() {
+  pushd /svnroot/svnrepos/
+
+  for dir in $(find . -type f -name uuid)
+  do
+    dir=$(dirname $dir)
+    local svn_path=$(dirname  $dir)
+    local svn_name=$(basename $svn_path)
+
+    echo "verify: $svn_name ..."
+    svnadmin verify -q $svn_path
+    [ $? -eq 0 ] && echo "verify: $svn_name OK"
+  done
+  popd
+}
+
 case "$1" in
   full)
     full_backup
@@ -127,6 +144,9 @@ case "$1" in
   incremental)
     incremental
     conf_backup
+    ;;
+  verify)
+    verify_all
     ;;
   *)
     usage
