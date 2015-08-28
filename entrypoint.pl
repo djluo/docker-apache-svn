@@ -60,6 +60,7 @@ system("chmod","750", "/svnroot/backup")   if( -d "/svnroot/backup");
 system("chmod","750", "/svnroot/svnrepos") if( -d "/svnroot/svnrepos");
 open (CRON,"|/usr/bin/crontab") or die "crontab error?";
 print CRON ("$min $hour * * * (find /svnroot/backup -type f -mtime 16 -exec rm -f {} \\;)\n");
+print CRON ("$min $hour * * * (/svnroot/gzip.sh >/dev/null 2>&1)\n");
 print CRON ("$min $hour * * 7 (/svnroot/bak.sh full >/dev/null 2>&1)\n");
 print CRON ("$min $hour * * 1,2,3,4,5,6 (/svnroot/bak.sh incremental >/dev/null 2>&1)\n");
 if( $ENV{'RSYNC_PASSWORD'} ){

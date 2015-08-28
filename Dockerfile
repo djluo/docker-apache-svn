@@ -24,7 +24,8 @@ COPY ./conf/00-apache2.conf /etc/apache2/apache2.conf
 COPY ./entrypoint.pl        /entrypoint.pl
 COPY ./conf/access.d/example     /svnroot/example/example
 COPY ./conf/vhost.d/example.conf /svnroot/example/example.conf
-COPY ./bak.sh /svnroot/bak.sh
+COPY ./bak.sh  /svnroot/bak.sh
+COPY ./gzip.sh /svnroot/gzip.sh
 
 ENTRYPOINT ["/entrypoint.pl"]
 CMD        ["/usr/sbin/apache2", "-DFOREGROUND"]
