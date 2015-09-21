@@ -21,6 +21,8 @@ full_backup() {
 
   for dir in $list
   do
+    echo "---------- full_backup: $dir"
+
     dir=$(dirname $dir)
     local svn_path=$(dirname  $dir)
     local svn_name=$(basename $svn_path)
@@ -63,6 +65,8 @@ incremental() {
 
   for dir in $(find . -type f -name uuid)
   do
+    echo "---------- incremental: $dir"
+
     dir=$(dirname $dir)
     local svn_path=$(dirname $dir)
     local svn_name=$(basename $svn_path)
