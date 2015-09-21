@@ -12,9 +12,14 @@ usage() {
 }
 
 full_backup() {
+  local single="$1"
+  local list=$(find . -type f -name uuid)
+
+  [ "x$single" != "x" ] && list=$single
+
   pushd /svnroot/svnrepos/
 
-  for dir in $(find . -type f -name uuid)
+  for dir in $list
   do
     dir=$(dirname $dir)
     local svn_path=$(dirname  $dir)
@@ -72,7 +77,7 @@ incremental() {
     current_rev=$(svnlook youngest $svn_path)
 
     if [ $last_rev -eq 0 ];then
-      full_backup
+      full_backup "$svn_path/db/uuid"
     elif [ $last_rev -eq $current_rev ];then
       continue
     else
