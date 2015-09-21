@@ -74,16 +74,16 @@ incremental() {
     local bak_dir=$(readlink -f ../backup/$svn_path)
 
     local last_rev=0
-    local current_rev=0
+    local current_rev=-1
     local latest="${bak_dir}/latest-revision"
 
     [ -f ${latest} ] && last_rev=$(cat ${latest})
     current_rev=$(svnlook youngest $svn_path)
 
-    if [ $last_rev -eq 0 ];then
-      full_backup "$svn_path/db/uuid"
-    elif [ $last_rev -eq $current_rev ];then
+    if [ $last_rev -eq $current_rev ];then
       continue
+    elif [ $last_rev -eq 0 ];then
+      full_backup "$svn_path/db/uuid"
     else
       local start_rev=$(( $last_rev + 1 ))
       local target="${bak_dir}/r${start_rev}-r${current_rev}"
