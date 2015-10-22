@@ -12,12 +12,12 @@ usage() {
 }
 
 full_backup() {
+  pushd /svnroot/svnrepos/
+
   local single="$1"
   local list=$(find . -type f -name uuid)
 
   [ "x$single" != "x" ] && list=$single
-
-  pushd /svnroot/svnrepos/
 
   for dir in $list
   do
