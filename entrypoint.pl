@@ -77,7 +77,7 @@ if( $ENV{'RSYNC_PASSWORD'} ){
   umask $umask;
 
   my $rsync_hour = $hour + 1;
-  my $rsync_opts = "/usr/bin/rsync --del --port=$port -al --password-file=/rsync.pass";
+  my $rsync_opts = "/usr/bin/rsync --port=$port -al --password-file=/rsync.pass";
   print CRON ("$min $rsync_hour * * * ($rsync_opts /svnroot/backup/ docker@". $ip ."::backup/$dest/)\n");
 }
 close(CRON);
